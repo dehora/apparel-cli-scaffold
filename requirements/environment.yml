@@ -1,0 +1,33 @@
+name: apparel-cli-scaffold
+channels:
+  - anaconda
+  - conda-forge
+  - anaconda-fusion
+  - defaults
+dependencies:
+  - ca-certificates=2018.03.07
+  - certifi=2018.8.24
+  - libedit=3.1.20170329
+  - libffi=3.2.1
+  - ncurses=6.1
+  - openssl=1.0.2p
+  - pip=10.0.1
+  - python=3.6.4
+  - readline=7.0
+  - setuptools=40.2.0
+  - sqlite=3.24.0
+  - tk=8.6.8
+  - wheel=0.31.1
+  - xz=5.2.4
+  - zlib=1.2.11
+  - pytest
+  - click=6.7
+  - click-plugins=1.0.3
+  - requests
+  - setuptools
+  - twine
+  - pip:
+    - stups-zign
+    - clickclick==1.2.2
+
+

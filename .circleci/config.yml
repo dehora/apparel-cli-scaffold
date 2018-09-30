@@ -1,0 +1,68 @@
+version: 2
+
+jobs:
+  build:
+    docker:
+      - image: circleci/python:3.6.4
+
+    working_directory: ~/repo
+
+    steps:
+      - checkout:
+          post:
+            - git fetch --tags
+
+      - restore_cache:
+          keys:
+            - pip-cache
+            - conda-cache
+
+      - run:
+          name: Prep Python
+          command: sudo apt-get update && sudo apt-get install -y python-pip python-dev build-essential
+
+      - run:
+          name: Conda Install
+          command: |
+                sudo wget -q https://repo.continuum.io/miniconda/Miniconda3-4.4.10-Linux-x86_64.sh -O ~/miniconda.sh && \
+                sudo /bin/bash ~/miniconda.sh -b -p /opt/conda && \
+                sudo rm ~/miniconda.sh && \
+                sudo /opt/conda/bin/conda clean -tipsy && \
+                sudo ln -s /opt/conda/etc/profile.d/conda.sh /etc/profile.d/conda.sh && \
+                sudo echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bashrc && \
+                sudo echo "conda activate base" >> ~/.bashrc && \
+                sudo echo ". /opt/conda/etc/profile.d/conda.sh" >> ~/.bash_profile && \
+                sudo echo "conda activate base" >> ~/.bash_profile
+
+      - run:
+          name: Conda Config
+          command: |
+            export PATH="/opt/conda/bin:$PATH";
+            PS1='$ ';
+            source ~/.bash_profile;
+            conda config --add channels conda-forge;
+            conda config --add channels anaconda;
+            conda config --add channels anaconda-fusion;
+            conda env create -f requirements/environment.yml;
+
+      - run:
+          name: Tests
+          command: |
+            source ~/.bash_profile;
+            conda activate apparel-cli-scaffold;
+            pytest;
+
+      - save_cache:
+          key: pip-cache
+          paths:
+            - ~/.cache/pip
+
+      - save_cache:
+          key: conda-cache
+          paths:
+            - /opt/conda
+            - ~/opt/conda
+
+      - store_artifacts:
+          path: test-reports
+          destination: test-reports
