@@ -47,6 +47,7 @@ setup(
     author_email=get_email(),
     url="https://github.com/apparel-cli-scaffold",
     scripts=[],
+    python_requires='~=3.3',
     packages=find_packages(exclude=["tests*"]),
     package_data={},
     include_package_data=True,
