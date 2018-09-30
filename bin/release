@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+set -euxo pipefail
+
+ABSDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+WORK_ROOT=${ABSDIR}/..
+
+cd ${WORK_ROOT}/cli
+
+# sanity check
+pytest
+
+rm -f dist/*.* || true
+rm -rf build/* || true
+
+python setup.py sdist bdist_wheel
