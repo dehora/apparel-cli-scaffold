@@ -30,7 +30,7 @@ def _get_re(re, s):
 
 
 requires = [
-    "requests >=2.19.1",
+    "requests >=2.18.0",
     "click >=6.7",
     "clickclick >=1.2.2",
     "click-plugins >=1.0.3",
